@@ -1,0 +1,85 @@
+{
+  "protocol_version": "0.1",
+  "skill": {
+    "id": "hermes-skill-gif-search",
+    "display_name": "Gif Search",
+    "description": "Search and download GIFs from Tenor through a controlled command-line workflow."
+  },
+  "task_profile": {
+    "category": "research",
+    "architecture": "pipeline",
+    "artifact": "feed",
+    "inputs": [
+      "Search phrase",
+      "Tenor search endpoint"
+    ],
+    "outputs": [
+      "Downloaded GIF",
+      "Reaction GIF",
+      "320 \u00d7 240",
+      "Source: Tenor",
+      "Selected result"
+    ]
+  },
+  "modules": {
+    "memory": {
+      "strategy": "stage_artifact_log",
+      "responsibility": "Retain search phrase plus decisions, observations, and verification evidence needed to resume safely."
+    },
+    "planning": {
+      "strategy": "linear_gated_plan",
+      "responsibility": "Transform tenor search endpoint into the ordered, bounded stages defined by this skill."
+    },
+    "action": {
+      "strategy": "retrieve_normalize_synthesize_cite",
+      "responsibility": "Advance the workflow through relevance and content filter while preserving stop conditions and user authority."
+    },
+    "capability": {
+      "strategy": "task_conditioned_minimum_capability_set",
+      "responsibility": "Expose source discovery and evidence-processing capabilities that preserve provenance and uncertainty."
+    }
+  },
+  "execution": {
+    "stages": [
+      "Convert intent into concise search terms",
+      "Query Tenor with a bounded result count",
+      "Inspect previews dimensions and source links",
+      "Filter irrelevant or unsafe results",
+      "Download only the selected asset",
+      "Report attribution and local path"
+    ],
+    "gates": [
+      "scope_and_authority_confirmed",
+      "capability_and_dependency_preflight",
+      "consequential_action_previewed_when_applicable",
+      "output_reopened_and_verified"
+    ]
+  },
+  "verification": {
+    "evidence": [
+      "Reaction GIF",
+      "320 \u00d7 240",
+      "Source: Tenor",
+      "Selected result"
+    ],
+    "metrics": [
+      "task_success",
+      "verification_pass_rate",
+      "tool_error_rate",
+      "repair_count",
+      "latency_ms",
+      "estimated_cost_usd"
+    ]
+  },
+  "failure_policy": {
+    "max_repairs": 2,
+    "schema_error": "repair_then_stop",
+    "permission_error": "stop_without_retry",
+    "verification_failure": "report_incomplete"
+  },
+  "maturity": {
+    "level": "executable_contract",
+    "runtime_scope": "validation_and_dry_run_planning",
+    "claim_boundary": "This repository validates and plans the harness contract; it does not claim live service execution or benchmark gains without a connected adapter and measured evidence."
+  }
+}
